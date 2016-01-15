@@ -1,0 +1,69 @@
+\section{Strongloop Loopback}
+\label{sec:strongloop_loopback}
+This section provides an overview of LoopBack.
+\newline
+Built on top of the open source LoopBack framework, the StrongLoop API Platform is the first end-to-end platform for the full API lifecycle that allows to visually develop REST APIs in Node and get them connected to new and legacy data. In addition, the API Platform features built-in mBaaS features like push and offline sync, plus graphical tools with DevOps features for clustering, profiling and monitoring Node apps.
+\newline
+LoopBack generates model API from the models schemas, to let CRUD operations on models.
+LoopBack models automatically have a standard set of HTTP endpoints that provide REST APIs for create, read, update, and delete (CRUD) operations on model data:
+\begin{itemize}
+\item \textbf{POST /Model} — Create a new instance of the model and persist it into the data source.
+\item \textbf{GET /Model} — Find all instances of the model matched by filter from the data source.
+\item \textbf{PUT /Model} — Update an existing model instance or insert a new one into the data source.
+\item \textbf{PUT /Model/id} — Update attributes for a model instance and per- sist it into the data source.
+\item \textbf{GET /Model/id} — Find a model instance by id from the data source.
+\item \textbf{DELETE /Model/id } — Delete a model instance by id from the data source.
+\item \textbf{GET /Model/count} — Count instances of the model matched by where from the data source.
+\item \textbf{GET /Model/findOne} — Find first instance of the model matched by filter from the data source.
+\item \textbf{POST /Model/update} — Update instances of the model matched by where from that data source.
+\end{itemize}
+\begin{figure}[htb]
+ \centering
+ \includegraphics[width=0.9\linewidth]{images/chapter2/loopback_architecture.jpg}\hfill
+ \caption[Loopback Architecture]{Loopback Architecture}
+ \label{fig:loopback_architecture}
+\end{figure}
+A LoopBack model represents data in backend systems such as databases, and by default has both Node and REST APIs. Additionally, developer can add functionality such as validation rules and business logic to models. Every LoopBack application has a set of predefined built-in models such as User, Role, and Application. Developer can extend built-in models to suit application’s needs.
+\newline
+The model JSON file defines models, relations between models, and access to models.
+\begin{lstlisting}[language=json]
+{
+  {
+  "name": "ModelName", // See Top-level properties below "description": "A Customer model representing our customers.", "base": "User",
+  "idInjection": false,
+  "strict": true,
+  "options": { ... }, // See Options below
+  "properties": { ... }, // See Properties below
+  "validations": [...], // See Validations below
+  "relations": {...}, // See Relations below
+  "acls": [...], // See ACLs below
+  "scopes": {...}, // See Scopes below
+   "http": {"path": "/foo/mypath"}
+  }
+}
+\end{lstlisting}
+Where:
+\begin{itemize}
+\item “name”: Name of the model.
+\item “description”: Optional description of the model.
+\item “base”: Name of another model that this model extends. The model will “inherit” properties and methods of the base model.
+\item “IdInjection”: Whether to automatically add an id property to the model:
+\begin{itemize}
+\item true - id property is added to the model automatically. This is the default.
+\item false - id property is not added to the model.
+\end{itemize}
+\item “strict”: Specifies whether the model accepts only predefined properties or not. One of:
+\begin{itemize}
+\item true - Only properties defined in the model are accepted. Used to ensure that the model accepts only predefined properties.
+\item false - The model is an open model and accepts all properties, including ones not predefined in the model. This mode is useful to store free-form JSON data to a schema-less database such as MongoDB.
+\item validate - The unknown properties will be reported as validation errors.
+\item throw - Throws an exception if properties not defined for the model are used in an operation.
+\item undefined - Defaults to false unless the data source is backed by a relational database such as Oracle or MySQL.
+\item “options”: JSON object that specifies model options.
+\item “properties”: JSON object that specifies the properties in the model.
+\item “relations”: Object containing relation names and relation definitions.
+\item “acls”: Set of ACL specifications that describes access control for the model.
+\end{itemize}
+\end{itemize}
+The API can be extended: the developer can add remote functions to models or add hooks to existing API to add custom behavior before and/or after the API handler (to pre-process the re-quest and/or post-process the response). The resulting API is RESTful, cookie free, signed by authentica- tion token. By default, applications have a built-in model that represents a user, with properties username, email and password and role for authentica- tion and authorization. Loopback also introduces an indirection layer that allows to choose from almost all particular DBMS to be used.
+In Chapter Two the technologies used for developing this work, have been described. Each technology has been described in realtion to its function and its use in the project.
