@@ -1,2 +1,143 @@
-\section{section 1}
-\label{sec:section1}
+\section{x-commerce payment system overview}
+\label{sec:payment_system_overview}
+In the management of payments of e-commerce, there are three major players involved:
+\begin{itemize}
+\item \emph{x-commmerce client}: it is the one who initiates the transaction. The customer enters their credit card details in the specific form and send those to the server of x-commerce;
+\item \emph{x-commmerce server} the x-commerce server verifies the data received from the client and communicates with the server to start a transaction of Braintree;
+\item \emph{Braintree server} The server braintree also called a “gateway” initiates the transaction on the basis of the coordinates of the credit card.
+The needed results of the operation is sent to the server of x-commerce which in turn notifies the customer.
+\end{itemize}
+\subsection{Braintree customized form}
+In section \ref{sec:braintree} shows how to set the base form provided by Braintree to integrate payments into your application. Following example shows the code to create a custom form:
+\begin{lstlisting}[language=html]
+<form action="/api/orders/checkout" id="form_card">
+  <div>
+    <label for="card-number">Card Number</label>
+    <input type="text" data-braintree-name="number">
+  </div>
+  <div>
+    <label for="expiration-date">Expiration Date</label>
+    <input type="number" data-braintree-name="expiration_month">
+    <input type="number" data-braintree-name="expiration_year">
+  </div>
+  <input id="pay" type="submit" value="pay">
+</form>
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<script>
+  braintree.setup("YOUR_CLIENT_TOKEN", "custom", { id: "form_card" });
+</script>
+\end{lstlisting}
+This way you can customize the form with CSS code.
+Note that the first thing that comes to imported script \emph{braintree.js}.
+This library includes all the logic for the management of sending data. In particular, the data on credit cards do not travel on the network as this script first hides such data with a token. Network so traveling a token that summarizes the data of the credit card. A server-side that is sufficient token to decode the token to get clear in the coordinates of the credit card. This token is generated from the keys and other information obtained from Braintree and is unique. In fact if you start two transactions and both have the same token then the second is discarded because it was considered duplicated.
+Immediately after the values are dictated to the environment variable “braintree”.
+\begin{lstlisting}[language=javascript]
+<script>
+  braintree.setup("YOUR_CLIENT_TOKEN", "custom", { id: "form_card" });
+</script>
+\end{lstlisting}
+Where:
+\begin{itemize}
+\item \emph{YOUR\_CLIENT\_TOKEN}: it's the ID of braintree's client that get with an AJAX call. The customer must be registered in Braintree.
+Braintree provides APIs to register a new account and get ID assigned to it;
+\item \emph{custom}: it indicates that the form of payment is not the default (\emph{dropin}) but is customized;
+\item \emph{id}: specific ID of the form that must be processed by the library \emph{braintree.js} to submit the form.
+\end{itemize}
+Finally the script \emph{braintree.js}, to process the data of credit cards, requires that each input field has certain characteristics.
+\begin{lstlisting}[language=html]
+<div>
+<label for="card-number">Card Number</label>
+<input type="text" data-braintree-name="number"></div>
+<div>
+<label for="expiration-date">Expiration Date</label>
+<input type="number" data-braintree-name="expiration_month">
+<input type="number" data-braintree-name="expiration_year">
+</div>
+\end{lstlisting}
+Where:
+\begin{itemize}
+\item \emph{data-braintree-name="number"}: it's need to add this property to the input field of the form. This input field contains the number of the credit card that is used by the script \emph{braintree.js} to generate the token. This is necessary because the form is submitted, the script braintree.js parses the data entered in the form in particular select input fields having these specific properties;
+\item \emph{data-braintree-name="expiration\_month"}: it's need to add this property to the input field of the form that will contain the month of expiration of the credit card;
+\item \emph{data-braintree-name="expiration\_year"}: it's need to add this property to the input field of the form that will contain the year of expiration of the credit card.
+\end{itemize}
+So, in this way the customer x-commerce is able to send the data of the credit card to the server of x-commerce, then start a payment transaction.
+\subsection{Payment transaction initialization - server side}
+For initilize, the x-commerce server must import the Braintree di module.
+This module must be initialized with the keys that uniquely identify the merchant.
+\newline
+These keys are obtained from braintree and are used to make authentication on Braintree and are the following:
+\begin{itemize}
+\item \emph{merchant ID}: identifies the merchant
+\item \emph{public key}: It is the public key of the asymmetric encryption used in sending data from client to server;
+\item \emph{private key}: It is the public key of the asymmetric encryption used to decrypt the data;
+\end{itemize}
+In the following is a function that, thanks to these keys, it connects to the gateway braintree:
+\begin{lstlisting}[language=javascript]
+  var gateway;
+  function connect_braintree () {
+    return new Promise(function (resolve, reject) {
+      if (gateway) {
+        resolve(gateway);
+        return;
+      }
+      get_service('braintree').then(function (service) {
+        gateway = braintree.connect({
+          environment: braintree.Environment.Sandbox,
+          merchantId: service.params.merchant_id,
+          publicKey: service.public_key,
+          privateKey: service.private_key
+        });
+        resolve(gateway);
+      }).catch(function (err) {
+        reject(err);
+      });
+    });
+  }
+\end{lstlisting}
+In this way, through the variable \emph{gateway}, it is possible to communicate with braintree.
+\newline
+Once you are done with authentication braintree and received the token ( \emph{payment\_method\_none}), which summarizes the data of the credit card, one can try to make the payment.
+\newline
+When the customer does submit the payment form, it is chiamara API: \emph{/api/orders/checkout}.
+At the call of this API, a server-side function is called \emph{checkout\_braintree}, which performs the following functions:
+\begin{enumerate}
+\item get the customer from his ID. A query is made to the database that returns the customer associated with the ID;
+\item creation a new order as required by the customer. To do this, run a series of operations such as block related products due cause, occurs if the customer used a coupon, etc..;
+\item communicates with braintree server for initilize a new payment trasction;
+\item creating review to allow the customer to leave a review for each product order;
+\item mark current order as closed;
+\item save the response of Braintree to keep track of the attempted payment;
+\item creation of a new bill to be sent to the customer;
+\item save the data required to retry the payment in case the first attempt went wrong;
+\item prepare response for showing to client;
+\end{enumerate}
+The point 3, as already said, start a new transaction to try the payment. Following example shows the code for this:
+\begin{lstlisting}[language=javascript]
+  var braintree_checkout = function (data) {
+    return function (next) {
+      connect_braintree().then(function (gateway) { // connects with Braintree server
+        var sale_data = {
+          amount: 1,
+          paymentMethodNonce: data.payment_method_nonce,
+          options: {
+            submitForSettlement: true
+          }
+        };
+        gateway.transaction.sale(sale_data, function (err, res) {
+          next(err, res);
+        );
+      }).catch(function (err){
+          next(err, null);
+      });
+    };
+  };
+\end{lstlisting}
+Where:
+\begin{enumerate}
+\item connection with the server Braintree;
+\item preparing payment data such as the amount, payment\_method\_nonce encoding information of the credit card use by the customer;
+\item finally send payment;
+\end{enumerate}
+Once you send a payment, the following operations to be performed depend on the outcome of the transaction. In particular, if the transaction is successful then you must carry out steps 4, 5, 7, 8, 9 otherwise runs the operation of point 6 which repeats the whole procedure.
+\newline
+In the next section it describes in detail the operation that is performed in point 6.

@@ -1,2 +1,16 @@
-\section{section 2}
-\label{sec:section2}
+\section{Execute tasks to retry payment}
+\label{sec:tasks_to_retry_payment}
+The payment of an order can have different outcomes in particular:
+\begin{itemize}
+\item It can fail for the following reasons:
+\begin{itemize}
+\item error in data entry of credit card;
+\item for network problems;
+\item insufficient credit;
+\item unknown reasons;
+\end{itemize}
+\item transaction successfully completed;
+\end{itemize}
+In each of these cases the customer e-commerce must be notified of the outcome of the transaction.
+In the case in which the customer inserts the data of the credit card incorrect then it is immediately alerted.
+If the data on the card are correct but there are other problems for which the first transaction fails to complete for reasons listed above, Braintree then returns a reply containing identifier of the failed transaction.
