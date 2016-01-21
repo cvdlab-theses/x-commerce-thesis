@@ -1,58 +1,20 @@
-\section{Taxation of Electronic Commerce: A Developing Problem}
-\label{sec:taxation_overview}
-The rapid growth of e-commerce, especially the sale of goods and services over the internet, has fuelled a debate about the taxation regimes to be used.
+\section{x-commerce architecture}
+\label{sec:x_commerce_architecture}
+A Web application developed by using the x-commerce toolkit, is a full stack JavaScript Single Page Application.
+\subsection{server side}
+On the server side, an x-commerce app is based on NodeJS (see \ref{sec:nodejs}) used to create the server environment, MongoDB (see \ref{sec:mongodb}) used to storage data, and the Web framework Loopback by Strongloop (see \ref{sec:strongloop_loopback}).
 \newline
-The shift from a physically oriented commercial environment to a knowledge-based electronic environment poses serious and substantial issues in relation to taxation and taxation regimes. Tax administrations throughout the world face the formidable task of protecting their revenue base without hindering either the development of new technologies or the involvement of the business community in the evolving and growing e-market place.
-These problems will be greater for developing countries.
+Node.js is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js’ package ecosystem, npm, is the largest ecosystem of open source libraries in the world. NodeJS lets to create a ver- tical full-stack application in Javascript. The NodeJS asynchronous development scheme increases performances of web applications, by using downtime caused by HTTP requests.
 \newline
-It 'clear that the solutions to this problem are subject to continuation variations caused by changes of rules in force in each state.
+LoopBack generates model API from the models schemas, to let CRUD operations on models. Loopback is the core of the X-Project server-side. Document oriented API definition guarantees easiness and speed in API creation. Moreover, Loopback, is fully compatible with several DBMS thanks to connectors.
 \newline
-Since it is a very very common problem in systems e-commerce, today, fortunately, there are several services that offer ready-made solutions.
+MongoDB is a cross-platform document-oriented database. Classified as a NoSQL database, MongoDB eschews the traditional table-based relational database structure in favor of JSON-like documents with dynamic schemas. The document-oriented being of MongoDB allows to horizontal scale in really easy way. Moreover, document models, that replace relational database’s rows, are schemaless: this feature gives to MongoDB project high levels of felxibility and manageability.
+\subsection{client side}
+On the client side, an x-commerce app is based on HTML5 Web Components via Polymer-Project by Google. It is a set of Polymer elements for local routing, API request, forms, lists, style and admin panels.
 \newline
-These services (TaxJar, Avalara, CloudTax, etc), give a big hand to the developer to manage the prices of goods or services.
-\subsection{Taxjar}
-For get precise sales tax rates and calculations at the state, county, city and special taxing district level so you charge the customer the right amount of sales tax, every time, must be updated continuously on the change in the rules in force.
+Polymer-Project is one of the most important emerging realities of the moment. Google team has heavily focused his forces on code reusability and on separation between behavior, presentation and content. Code reusability is a direct effect of Web Components structure: the creation of widget that can be completely indipendent facilitates code reuse.
 \newline
-No more building tax tables and dealing with ever-changing sales tax rates in thousands of sales tax districts.
-So, sales tax is so complicated because every state is different. Some states require that merchants charge sales tax on shipping charges, others don’t.
-\newline
-Some states have “origin-based” sales tax sourcing. Others are “destination-based.” TaxJar’s SmartCalcs API comes handles complicated sales tax sourcing rules so you never have to worry about it.
-Certain products types, like food or clothing are taxed at a lower rate or even tax exempt in some states. TaxJar SmartCalcs Sales Tax API handles complicated product-level taxability so you never have to worry about customizing sales tax rates.
-\newline
-Taxjar SmartCalcs solves solves all these problems and it provides an easy interface to very complicated problems, RESTful APIs.
-\newline
-Let's see what parameters must be specified for calculating the fees in two locations:
-\begin{itemize}
-  \item \emph{from\_country}: String(optional) - ISO two country code of the country where the order shipped from;
-  \item \emph{from\_zip}: String(optional) - Postal code where the order shipped from (5-Digit ZIP or ZIP+4);
-  \item \emph{from\_state}: String(optional) - State where the order shipped from.;
-  \item \emph{from\_city}: String(optional) - City where the order shipped from;
-  \item \emph{from\_street}: String(optional) - Street address where the order shipped from.;
-  \item \emph{to\_country}: String(required) - ISO two country code of the country where the order shipped to;
-  \item \emph{to\_zip}: String(conditional) - Postal code where the order shipped to (5-Digit ZIP or ZIP+4);
-  \item \emph{to\_state}: String(conditional) - State where the order shipped to;
-  \item \emph{to\_city}: String(optional) - City where the order shipped to;
-  \item \emph{to\_street}: String(optional) - Street address where the order shipped to;
-  \item \emph{amount}: Long(optional) - Total amount of the order, excluding shipping;
-  \item \emph{shipping}: Long(required) - Total amount of shipping for the order;
-\end{itemize}
-Following is an example in code:
-\begin{lstlisting}[language=javascript]
-var taxjar = require("taxjar")(<api-key>);
-taxjar.taxForOrder({
-  'from_country': 'US',
-  'from_zip': '07001',
-  'from_state': 'NJ',
-  'to_country': 'US',
-  'to_zip': '07446',
-  'to_state': 'NJ',
-  'amount': 16.50,
-  'shipping': 1.5
-}).then(function(res) {
-  res.tax; // Tax object
-  res.tax.amount_to_collect; // Amount to collect
-});
-</script>
-\end{lstlisting}
-Taxjar, also allows you to specify many other parameters such as the order lines, to be precise in the calculation of rates. For more details see
-\href{http://developers.taxjar.com/api/?javascript#introduction}{documentation}.
+Finally, the union between Polymer and Strongloop has been topped by the creation of the document oriented development process described below \ref{sec:document_driven_web_development_process}.
+
+
+

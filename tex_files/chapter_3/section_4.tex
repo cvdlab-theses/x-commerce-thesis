@@ -1,7 +1,97 @@
-\section{x-commerce organization}
-\label{sec:x_commerce_organization}
-Nella fase di progettazione, sono state individuate due soluzioni relativi alla gestione delle risorse utilizzate dal client e dall’admin di x-commerce. In particolare i client di x-commerce hanno necessità diverse nell'uso della piattaforma rispetto all'admin. Mentre il primo è più orientato alla fruizione delle informazioni relative ai prodotti ed eventalmente alle ordinazioni, l’admin è più interessato all'inserimetno di nuovi prodotti e altre informazioni al fine di organizzare al meglio le risorse e l'interfaccia offerta al client. Considerando che i due attori principali coinvolti in queste interrazioni richiedono livelli di sicurezza diversi cioè si vuole che soltanto l’admin possa apportare modifiche alle informazioni mentre tutti gli altri possono fruire dei dati.
-\newline
-Per separare questa gestione dei client e admin di x-commerce, si è deciso di separare le pagine di client e dell'admin in due directory diverse. In questo modo si può ospitare/gestire l'admin su un server diverso rispetto al server su cui accedono i client di x-commerce. Cio non esclude la possibilità di offrire i due tipi di servizi da un unico server.
-\newline
-Questa organizzazione delle pagine per il client e l’admin permette infine di assegnare lo stesso nome alle pagine e alle sue parti.
+\section{Easypost}
+\label{sec:easypost}
+Another key point in the systems of e-commerce is the delivery and tracking of parcels. From the logistics point of view this is a very complicated problem to which we must pay close attention today because customer satisfaction is strongly dependent on the traceability of its services well. Through this feature the customer is aware of when you receive the order.
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.5\linewidth]{images/chapter3/shipment-tracking.jpg}\hfill
+  \caption[shipping and tracking]{shipping and tracking}
+\label{fig:shipping_tracking}
+\end{figure}
+Easypost is a service that solves problems related notes to shipments and tracking of packages offering a solution well established. Following is an example in code to send a parcel:
+\begin{lstlisting}[language=javascript]
+var easypost = require('node-easypost')(apiKey);
+// set addresses
+var toAddress = {
+    name: "Dr. Steve Brule",
+    street1: "179 N Harbor Dr",
+    city: "Redondo Beach",
+    state: "CA",
+    zip: "90277",
+    country: "US",
+    phone: "310-808-5243"
+};
+var fromAddress = {
+    name: "EasyPost",
+    street1: "118 2nd Street",
+    street2: "4th Floor",
+    city: "San Francisco",
+    state: "CA",
+    zip: "94105",
+    phone: "415-123-4567"
+};
+
+// verify address
+easypost.Address.create(fromAddress, function(err, fromAddress) {
+    fromAddress.verify(function(err, response) {
+        if (err) {
+            console.log('Address is invalid.');
+        } else if (response.message !== undefined && response.message !== null) {
+            console.log('Address is valid but has an issue: ', response.message);
+            var verifiedAddress = response.address;
+        } else {
+            var verifiedAddress = response;
+        }
+    });
+});
+
+// set parcel
+easypost.Parcel.create({
+    predefined_package: "InvalidPackageName",
+    weight: 21.2
+}, function(err, response) {
+    console.log(err);
+});
+
+var parcel = {
+    length: 10.2,
+    width: 7.8,
+    height: 4.3,
+    weight: 21.2
+};
+
+// create customs_info form for intl shipping
+var customsItem = {
+    description: "EasyPost t-shirts",
+    hs_tariff_number: 123456,
+    origin_country: "US",
+    quantity: 2,
+    value: 96.27,
+    weight: 21.1
+};
+
+var customsInfo = {
+    customs_certify: 1,
+    customs_signer: "Hector Hammerfall",
+    contents_type: "gift",
+    contents_explanation: "",
+    eel_pfc: "NOEEI 30.37(a)",
+    non_delivery_option: "return",
+    restriction_type: "none",
+    restriction_comments: "",
+    customs_items: [customsItem]
+};
+// create shipment
+easypost.Shipment.create({
+    to_address: toAddress,
+    from_address: fromAddress,
+    parcel: parcel,
+    customs_info: customsInfo
+}, function(err, shipment) {
+    // buy postage label with one of the rate objects
+    shipment.buy({rate: shipment.lowestRate(['USPS', 'ups']), insurance: 100.00}, function(err, shipment) {
+        console.log(shipment.tracking_code);
+        console.log(shipment.postage_label.label_url);
+    });
+});
+
+\end{lstlisting}
