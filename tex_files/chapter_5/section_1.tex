@@ -98,7 +98,7 @@ In this way, through the variable \emph{gateway}, it is possible to communicate 
 \newline
 Once you are done with authentication braintree and received the token ( \emph{payment\_method\_none}), which summarizes the data of the credit card, one can try to make the payment.
 \newline
-When the customer does submit the payment form, it is chiamara API: \emph{/api/orders/checkout}.
+When the customer does submit the payment form, it is call API: \emph{/api/orders/checkout}.
 At the call of this API, a server-side function is called \emph{checkout\_braintree}, which performs the following functions:
 \begin{enumerate}
 \item get the customer from his ID. A query is made to the database that returns the customer associated with the ID;
