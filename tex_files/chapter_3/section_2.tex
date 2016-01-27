@@ -1,30 +1,24 @@
-\section{Stripe}
-\label{sec:stripe}
-Stripe is the best way to accept payments online. Stripe aims to expand internet commerce by making it easy to process transactions and manage an online business.
-\newline
-Stripe is 365 people and headquartered in an old trunk factory in the Mission district of San Francisco. The company has received around \$300 million in funding to date; investors include Sequoia Capital, Visa, American Express, Peter Thiel, and Elon Musk. Stripe enables you to accept payments in minutes. Collect your customers’ payment information easily and securely on web or mobile, and create charges server-side. Stripe supports 100+ currencies out of the box. In addition to credit and debit cards, Apple Pay, Android Pay, you can also easily support Bitcoin, Alipay, or Amex Express Checkout.
-\subsection{How it work}
-Even Stripe, as Braintree, provides a default widget that you can use to integrate payments.
+\section{HTML5}
+\label{sec:html5}
+This section provides an overview of HTML5.
+HTML5 is the latest version of Hypertext Markup Language, the code
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.5\linewidth]{images/chapter3/stripe-drop.png}\hfill
-  \caption[Default stripe payment widget]{Default stripe payment widget}
-\label{fig:stripe_default_ui}
+ \centering
+ \includegraphics[width=1.0\linewidth]{images/chapter3/tecnologie.jpeg}\hfill
+ \caption[Server and client sides enabling  technologies]{Server and client sides enabling  technologies}
+ \label{fig:fourV}
 \end{figure}
-To get this widget, just enter the following code in its page:
-\begin{lstlisting}[language=html]
-<form action="" method="POST">
-  <script
-    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-    data-amount="2000"
-    data-name="Demo Site"
-    data-description="2 widgets ($20.00)"
-    data-image="/128x128.png"
-    data-locale="auto">
-  </script>
-</form>
-\end{lstlisting}
-The most important thing to notice is the data-key attribute added to the script tag. This key identifies your account when communicating with Stripe.
+that describes web pages. There are actually three kinds of code: HTML, which provides the structure; Cascading Style Sheets (CSS), which take care of presentation; and JavaScript, which makes things happen.
 \newline
-Stripe also offers the ability to customize the payment form. This and other details can be discussed in Chapter 5.
+HTML5 has been designed to deliver almost everything it is possible to do online without requiring additional software such as browser plugins. It does everything, from animation to apps, music to movies, and can also be used to build complicated applications that run in browsers.
+\newline
+Moreover, HTML5 isn’t proprietary, so it is completely free. It’s also a cross-platform standard, which means it doesn’t care whether the device is a tablet or a smartphone, a netbook, notebook or ultrabook or a Smart TV: if the browser supports HTML5, it should work  flawlessly.
+\newline
+While some features of HTML5 are often compared to Adobe Flash, the two technologies are very different. Both include features for playing audio and video within web pages, and for using Scalable Vector Graphics. HTML5, on its own, cannot be used for animation or interactivity, it must be supplemented with CSS3 or JavaScript. There are many Flash capabilities  that have no direct counterpart in HTML5. See Comparison of HTML5 and Flash.
+\begin{figure}[htb]
+ \centering
+ \includegraphics[width=1.0\linewidth]{images/chapter3/Html5_responsive.png}\hfill
+ \caption[Html5 Responsive]{Html5 Responsive}
+ \label{fig:fourV}
+\end{figure}
+Although HTML5 has been well known among web developers for years, its interactive capabilities became a topic of mainstream media around April 2010, after Apple Inc’s then-CEO Steve Jobs issued a public letter entitled “Thoughts on Flash”  where he concluded that “Flash is no longer necessary to watch video or consume any kind of web content” and that “new open standards created in the mobile era, such as HTML5, will win”.This sparked a debate in web development circles where some suggested that while HTML5 provides enhanced functionality, developers must consider the varying browser support of the different parts of the standard as well as other functionality differences between HTML5 and Flash. In early November 2011, Adobe announced that it would discontinue development of Flash for mobile devices and reorient its efforts in developing tools using HTML5.

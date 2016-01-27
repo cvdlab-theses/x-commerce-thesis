@@ -1,28 +1,30 @@
-\section{Web Components}
-\label{sec:web_components}
-This section provides an overview of Web  Components.
-Web Components are a set of standards currently being produced by Google engineers as a W3C specification that allows for the creation of reusable widgets or components in web documents and web  applications.  The intention behind them is to bring component-based software engineering to the World Wide Web. The components model allows for encapsulation and interoperability of individual HTML  elements.
+\section{Stripe}
+\label{sec:stripe}
+Stripe is the best way to accept payments online. Stripe aims to expand internet commerce by making it easy to process transactions and manage an online business.
 \newline
-Support for Web Components is present in some WebKit-based browsers like Google Chrome and Opera and is in Mozilla Firefox (requires a manual configuration change). Microsoft’s Internet Explorer has not implemented any Web Components specifications yet.[1] Backwards compatibility with older browsers is implemented using JavaScript-based polyfills.[35]
+Stripe is 365 people and headquartered in an old trunk factory in the Mission district of San Francisco. The company has received around \$300 million in funding to date; investors include Sequoia Capital, Visa, American Express, Peter Thiel, and Elon Musk. Stripe enables you to accept payments in minutes. Collect your customers’ payment information easily and securely on web or mobile, and create charges server-side. Stripe supports 100+ currencies out of the box. In addition to credit and debit cards, Apple Pay, Android Pay, you can also easily support Bitcoin, Alipay, or Amex Express Checkout.
+\subsection{How it work}
+Even Stripe, as Braintree, provides a default widget that you can use to integrate payments.
 \begin{figure}[htb]
- \centering
- \includegraphics[width=1.0\linewidth]{images/chapter2/web_cmpts.png}\hfill
- \caption[Web Components]{Web Components}
- \label{fig:fourV}
+  \centering
+  \includegraphics[width=0.5\linewidth]{images/chapter2/stripe-drop.png}\hfill
+  \caption[Default stripe payment widget]{Default stripe payment widget}
+\label{fig:stripe_default_ui}
 \end{figure}
-Web Components consist of 4 main elements which can be used separately or all together:
-\begin{itemize}
-\item Custom Elements: Custom Elements allow authors to define their own custom HTML elements. Authors associate JavaScript code with custom tag names, and then use those custom tag names as they would any standard tag.  Custom elements are still elements.  It is possible to create, use,
-manipulate, and compose them just as easily as any standard <div> or <span> today.[8]
-\end{itemize}
-\begin{itemize}
-\item Shadow DOM: Shadow DOM addresses the lack of true DOM tree encapsulation when building components. With Shadow DOM, elements can get a new kind of node associated with them. This new kind of node is called a shadow root.  An element that has a “shadow root”  associated with it is called  a “shadow host”. The content of a shadow host isn’t rendered; the content of the shadow root is rendered instead.  Shadow DOM allows   a single node to express three subtrees:  light DOM, shadow DOM,  and composed DOM. Together, the light DOM and shadow DOM are referred to as the logical DOM. This is the DOM that the developer interacts with. The composed DOM is what the browser sees and uses to render the pixels on the  screen.[9]
+To get this widget, just enter the following code in its page:
+\begin{lstlisting}[language=html]
+<form action="" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+    data-amount="2000"
+    data-name="Demo Site"
+    data-description="2 widgets ($20.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>
+\end{lstlisting}
+The most important thing to notice is the data-key attribute added to the script tag. This key identifies your account when communicating with Stripe.
 \newline
-Structure of a Shadow DOM An element that has a shadow root asso- ciated with it is called shadow host. The shadow root can be treated as an ordinary DOM element, so it is possible to append arbitrary nodes to it. With Shadow DOM, all markup and CSS are scoped to the host element. In other words, CSS styles defined inside a Shadow Root won’t affect its parent document, CSS styles defined outside the Shadow Root won’t affect the main page.
-\end{itemize}
-\begin{itemize}
-\item HTML Import: This webcomponents.js repository contains a  JavaScript  polyfill  for the HTML Imports specification. HTML Imports are a way to include and reuse HTML documents in other HTML documents. As <script> tags let authors include external JavaScript in their pages, imports let authors load full HTML resources. In particular, imports let authors include Custom Element definitions from external URLs.
-\end{itemize}
-\begin{itemize}
-\item Templates: This specification describes a method for declaring inert DOM subtrees in HTML and manipulating them to instantiate document fragments with identical contents.
-\end{itemize}
+Stripe also offers the ability to customize the payment form. This and other details can be discussed in Chapter 5.
