@@ -1,20 +1,26 @@
 \section{Braintree}
 \label{sec:braintree}
-Braintree is a full-stack payments platform that makes it easy to accept payments in your app or website. Our service replaces the traditional model of sourcing a payment gateway and merchant account from different providers. From one touch payments to mobile SDKs and foreign currency acceptance, we provide everything you need to start accepting payments today.
-\newline
+Braintree is an innovative and fast-growing online payment and mobile commerce company that has extended the capabilities of such payment brands as Visa, Master Card, American Express.
+The company replaces the traditional model of sourcing a payment gateway and merchant account from different providers.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.5\linewidth]{images/chapter2/braintree-logo.jpg}\hfill
+\caption[Braintree logo]{Braintree logo}
+\label{fig:stripe_logo}
+\end{figure}
 All kinds of organizations use Braintree to accept payments in mobile apps and websites. From startups in garages, to not-for-profits, to some of the largest online retailers, we have more experience working with new business models than any other payments provider. However, due to legal and regulatory compliance reasons, Braintree isn't able to work with some business types. How to use Braintree as a payment system?
 Braintree's  consists of complementary client and server SDKs:
 \begin{itemize}
-  \item The client SDK enables you to collect payment method (e.g. credit card, PayPal) details;
-  \item The server SDKs manage all requests to the Braintree gateway
+\item The client SDK enables you to collect payment method (e.g. credit card, PayPal) details;
+\item The server SDKs manage all requests to the Braintree gateway
 \end{itemize}
 Before we get started, there are two key concepts to introduce - the client token and the payment method nonce.
 \newline
 SDK Braintree offer various options to the programmer to integrate the payment service.
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=1.0\linewidth]{images/chapter2/braintree-sdk.png}\hfill
-  \caption[Braintree SDK]{Braintree SDK}
+\centering
+\includegraphics[width=1.0\linewidth]{images/chapter2/braintree-sdk.png}\hfill
+\caption[Braintree SDK]{Braintree SDK}
 \label{fig:braintree_sdk}
 \end{figure}
 \subsection{Client Token}
@@ -39,18 +45,18 @@ The server integration doesn't need to know the payment method type (e.g. credit
   \label{fig:braintree_server_comunication}
 \end{figure}
 \begin{enumerate}
-  \item App or web front-end requests a client token from your server in order to initialize the client SDK;
-  \item Server generates and sends a client token back to your client with the server SDK;
-  \item Once the client SDK is initialized and the customer has submitted payment information, the SDK communicates that information to Braintree, which returns a payment method nonce;
-  \item Then send the payment nonce to your server;
-  \item Server code receives the payment method nonce from your client and then uses the server SDK to create a transaction or perform other Braintree functions.
+\item App or web front-end requests a client token from your server in order to initialize the client SDK;
+\item Server generates and sends a client token back to your client with the server SDK;
+\item Once the client SDK is initialized and the customer has submitted payment information, the SDK communicates that information to Braintree, which returns a payment method nonce;
+\item Then send the payment nonce to your server;
+\item Server code receives the payment method nonce from your client and then uses the server SDK to create a transaction or perform other Braintree functions.
 \end{enumerate}
 The easiest way to use braintree is through Drop-in UI. This type of configuration is certainly the simplest but allows the programmer to customize the input form for entering your payment information. The interface Drop-in looks like this as follows:
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.6\linewidth]{images/chapter2/drop-in.png}\hfill
-  \caption[Drop-in UI]{ Drop-in UI}
-  \label{fig:drop_in_ui}
+\centering
+\includegraphics[width=0.6\linewidth]{images/chapter2/drop-in.png}\hfill
+\caption[Drop-in UI]{ Drop-in UI}
+\label{fig:drop_in_ui}
 \end{figure}
 To create and maintain this form to the client-side you must import the scrip \emph{brantree.js} and organize form so as follows:
 \begin{lstlisting}[language=html]

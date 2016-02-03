@@ -10,7 +10,7 @@ The process to build a web application based on x-commerce toolkit consists of t
 \subsection{Model schemas definition}
 A description of entities, properties, relations and data access policies are defined as JSON documents.
 \newline
-The models of e-commerce are many and are expected to grow further with the integration and implementation of new services. For the moment there are 30 models. Loopback in the definition of each model is done by filling in a JSON file where declare properties that interest us. In the following are the main models of x-commerce:
+The models of e-commerce are many and are expected to grow further with the integration and implementation of new services. At the moment there are 30 models. Loopback in the definition of each model is done by filling in a JSON file where declare properties that interest us. In the following are the main models of x-commerce:
 \begin{itemize}
 \item \emph{product}: the model has the properties we are specifying the property of a product which interest, for which:
 \begin{itemize}
@@ -394,97 +394,111 @@ Finally, APIs generated for the model Customer:
 \item \textbf{GET  /customers/id/wishlists} — Queries wishlists of Customer. A Customer has a relationship with Wishlist type: hasMany. Loopback then it generates all possible API to manage the relations. In this case it is shown only the GET.
 \end{itemize}
 \subsection{UI components definition \& assembly}
-Several components are defined at this stage to compose a page. As already mentioned, these components are often reusable.
+Several components are defined at this stage to compose a page. As already mentioned, these components are often self-contained and reusable.
 \newline
-This idea of composing page composing elements helps to intelligently manage the complexity of the pages. Following are some elements that make up the page of a product:
-\begin{itemize}
-\item
-\begin{lstlisting}[language=html]
-<part-product-info product="{{product}}" error="{{error}}">
-</part-product-info>:
-\end{lstlisting}
-This element manages information based on a product such as the name and description. This management and all its complexity is encapsulated in the item itself. in this case all elements are passed also two parameters that help to bind variables. So at the page level, the page goes to each element information related to a product and each element internally manages to manipulate the data that interests. Similarly, each element is also passed an object that represents the error, and each element controls and displays errors related to their corporate data;
-\item
-\begin{lstlisting}[language=html]
-<part-product-pricing product="{{product}}"></part-product-pricing>
-\end{lstlisting}
-this component is in charge of the product price;
-\item
-\begin{lstlisting}[language=html]
-<part-product-actions></part-product-actions>
-\end{lstlisting}
-This element is responsible to represent the buttons on rescue and cancellation of a product.
-\end{itemize}
-Decomposing the complexity of the design elements in self-contained, it is easy to create complex parts of individual pages.
-\newline
-Distinct UI components are finally mounted to compose the application views. Assembly is kept as simple as possible: it only consists of a composition of HTML5 elements. So, the entire development process results driven by: JSON documents describing entities of the application and HTML template documents describing the UI components. Following is shown the compositions for page elements of a product:
-\begin{lstlisting}[language=html]
-<part-product-header product="{{product}}"></part-product-header>
-<part-product-info product="{{product}}" error="{{error}}"></part-product-info>
-<part-product-visibility product="{{product}}" error="{{error}}" on-change-visibility="on_change_visibility"></part-product-visibility>
-<part-product-image product="{{product}}" on-uploaded-image="on_upload_image"></part-product-image>
-<part-product-pricing product="{{product}}"></part-product-pricing>
-<part-product-inventory product="{{product}}"></part-product-inventory>
-<part-product-shipping product="{{product}}"></part-product-shipping>
-<part-product-organization product="{{product}}" on-error="on_error"></part-product-organization>
-<part-product-variants id="variants" product="{{product}}"></part-product-variants>
-<part-product-actions></part-product-actions>
-\end{lstlisting}
-All these elements are in turn used in the interior of the element \emph{<layout-admin>} that defines the menu of the page. This design of the product page about the side-admin.
-The same philosophy to arrange everything in components has also been used for the client-side.
-\newline
-Following shows some screenshots of the pages that make up the admin interface:
+This idea of composing page composing elements helps to intelligently manage the complexity of the pages. As already said, in the design phase of the client and the admin pages are independent.
+\subsubsection{Admin side}
+%first part of page product%
+Following is shown a first part of the page product:
 \begin{figure}[htb]
 \centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/products-example.png}\hfill
+\includegraphics[width=1.0\linewidth]{images/chapter4/product-page-ex1.png}\hfill
 \caption[page product first part form]{Page product example - first part form interface}
 \label{fig:design_page}
 \end{figure}
-
+\newline
+This first part of the page product consists of several components:
+\begin{itemize}
+\item
+\begin{lstlisting}[language=html]
+<part-product-header></part-product-header>
+\end{lstlisting}
+this component is used to represent the \emph{breadcrumb} and buttons to perform the action on the product;
+\item
+\begin{lstlisting}[language=html]
+<part-product-info></part-product-info>
+\end{lstlisting}
+this element manages information based on a product such as the name and description;
+\item
+\begin{lstlisting}[language=html]
+<part-product-visibility></part-product-visibility>
+\end{lstlisting}
+this component serves to schedule the date of publication of the product on the store;
+\item
+\begin{lstlisting}[language=html]
+<part-product-image></part-product-image>
+\end{lstlisting}
+this component is used to represent the image of the product;
+\end{itemize}
+%second part of page product%
+Following is shown a second part of the page product:
 \begin{figure}[htb]
 \centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/products-example1.png}\hfill
+\includegraphics[width=0.9\linewidth]{images/chapter4/product-page-ex2.png}\hfill
 \caption[page product second part form]{Page product example - second part form interface}
 \label{fig:design_page}
 \end{figure}
-%product page screenshot page product all browser
+\newline
+This second part of the page product contains other components:
+\begin{itemize}
+\item
+\begin{lstlisting}[language=html]
+<part-product-pricing></part-product-pricing>
+\end{lstlisting}
+this component represents the information relating to the price;
+\item
+\begin{lstlisting}[language=html]
+<part-product-inventory></part-product-inventory>
+\end{lstlisting}
+this component is used to represents the information relating inventory as barcode and SKU( stock keeping unit);
+\item
+\begin{lstlisting}[language=html]
+<part-product-shipping></part-product-shipping>
+\end{lstlisting}
+this component is used to represents the weigth of product;
+\end{itemize}
+%third part of page product%
+Following is shown a third part of the page product:
 \begin{figure}[htb]
 \centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/prod-part1-all.png}\hfill
-\caption[page product first part form browser]{Page product example - first part form interface - Browser screenshot}
+\includegraphics[width=1.0\linewidth]{images/chapter4/product-page-ex3.png}\hfill
+\caption[page product third part form]{Page product example - third part form interface}
 \label{fig:design_page}
 \end{figure}
+\newline
+This third part of the page product contains other components:
+\begin{itemize}
+\item
+\begin{lstlisting}[language=html]
+<part-product-organization></part-product-organization>
+\end{lstlisting}
+this component hides all the operating logic to assign the current product to a seller, to one or more collections, define the type of product. Finally, it is possible to assign the tag to the product;
+\item
+\begin{lstlisting}[language=html]
+<part-product-variants></part-product-variants>
+\end{lstlisting}
+this component hides the entire operating logic to create variants of a product;
+\item
+\begin{lstlisting}[language=html]
+<part-product-actions></part-product-actions>
+\end{lstlisting}
+This component is the buttons of saving a product and its display at the client side;
+\end{itemize}
+Putting together these small self-contained components, is designed the product page. Now let's see how it designed the product page at client-side.
+\subsubsection{Client side}
 \begin{figure}[htb]
 \centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/prod-part2-all.png}\hfill
-\caption[page product second part form browser]{Page product example - second part form interface- Browser screenshot}
-\label{fig:design_page}
+\includegraphics[width=0.9\linewidth]{images/chapter4/product-page-ex4.png}\hfill
+\caption[page product client-side]{Page product client-side example}
+\label{fig:design_page_prod_cli}
 \end{figure}
-%page products example
-\begin{figure}[htb]
-\centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/page-products-all.png}\hfill
-\caption[page products example]{Page products example}
-\label{fig:design_page}
-\end{figure}
-%page order example
-\begin{figure}[htb]
-\centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/page-order-all.png}\hfill
-\caption[page order example]{Page order example}
-\label{fig:design_page}
-\end{figure}
-%page coupon example
-\begin{figure}[htb]
-\centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/page-coupon-all.png}\hfill
-\caption[page coupon example]{Page coupon example}
-\label{fig:design_page}
-\end{figure}
-%page vendor example
-\begin{figure}[htb]
-\centering
-\includegraphics[width=1.0\linewidth]{images/chapter4/page-vendor-all.png}\hfill
-\caption[page vendor example]{Page vendor example}
-\label{fig:design_page}
-\end{figure}
+The components making up the product page of the client are as follows:
+\begin{lstlisting}[language=html]
+<part-product-info></part-product-info>
+<part-product-options></part-product-options>
+<part-product-cart></part-product-cart>
+<part-product-wish></part-product-wish>
+<part-product-details></part-product-details>
+<part-product-reviews></part-product-reviews>
+\end{lstlisting}
+It is evident the role of each component in the page.
