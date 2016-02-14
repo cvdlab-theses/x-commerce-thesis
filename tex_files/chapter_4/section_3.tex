@@ -1,28 +1,28 @@
 \section{x-commerce design}
 \label{sec:document_driven_web_development_process}
-At the design stage, we have identified two solutions for the management of the resources used by the client and by the admin of x-commerce. In particular, the client x-commerce have different needs in the use of the platform than the admin. While the former is more oriented to the use of information on products and eventually to the order, the admin is more concerned with the inclusion of new products and information in order to better organize the resources and the interface offered to the customer. Considering that the two main actors involved in these interactions require different levels of security that you want only the admin can modify the information and all other eligible data.
+At the design stage, we have identified two solutions for the management of the resources used by the client and by the administrator of x-commerce. In particular, the client of x-commerce have different needs in the use of the platform than the administrator. While the former is more oriented to the use of the information on products and eventually to the order, the administrator is more concerned with the inclusion of new products and information in order to better organize the resources and the interface offered to the customer. Considering that the two main actors involved in these interactions require different levels of security. Only the administrator can modify the information and all other eligible data.
 \newline
-To separate this client management and admin e-commerce, it was decided to separate the pages of the admin and client in two different directories. This allows you to host/manage the admin on a server other than the server on which the client access to x-commerce. This does not however exclude the possibility of offering two types of services from a single server.
+To separate this client management and administrator e-commerce, it was decided to separate the pages of the administrator and client in two different directories. This allows you to host the administrator on a server other than the server on which the client access to x-commerce. This does not however exclude the possibility of offering two types of services from a single server.
 \newline
-This organization of pages for the client and the admin allows you to assign the same name to the pages and its parts.
+This organization of pages for the client and the administrator allows you to assign the same name to the pages and its parts.
 \newline
-The process to build a web application based on x-commerce toolkit consists of the following four steps: models schemas definition, HTTP RESTful API definition, UI components definition \& assembly.
+The process to build a web application based on x-commerce toolkit consists of the following four steps: defining the model of the schema, HTTP RESTful API definition, UI components definition and assembly.
 \subsection{Model schemas definition}
 A description of entities, properties, relations and data access policies are defined as JSON documents.
 \newline
 The models of e-commerce are many and are expected to grow further with the integration and implementation of new services. At the moment there are 30 models. Loopback in the definition of each model is done by filling in a JSON file where declare properties that interest us. In the following are the main models of x-commerce:
 \begin{itemize}
-\item \emph{product}: the model has the properties we are specifying the property of a product which interest, for which:
+\item \emph{product}: the model has many properties, but we are specifying the properties which are of greater interest; for which:
 \begin{itemize}
 \item a product has a title string (we are also saying that this field is required);
 \item a product has a description string;
 \item a product has a price of type Number, etc..
 \end{itemize}
-The model has also produced the “relations”. This field identifies relatiosn current model (“product”) with other models such as:
+The model has also produced the “relations”. This field identifies relation of the current model (“product”) with other models such as:
 \begin{itemize}
 \item a product has a relationship with the model “Image” type “many”. This report was modeled because the product has a lot of pictures;
-\item a product has the relationship with the model “Comments” type “many” because a product has many comments or reviews, etc..
-\item it is possible also specify “acls (access control lists)” to control access to the system. Specifying who can do what with a JSON file, you can have in a transparent way all security mechanisms.
+\item a product has the relationship with the model “Comments” type “many” because a product has many comments or reviews, etc.
+\item it is possible also to specify “acls (access control lists)” to control access to the system. Thus by specifying who can do what with a JSON file, it is possible to have a transparent way all security mechanisms.
 \end{itemize}
 \begin{lstlisting}[language=json]
 {
@@ -46,7 +46,7 @@ The model has also produced the “relations”. This field identifies relatiosn
 \item \emph{customers}: this time there are two new things:
 \begin{itemize}
 \item the presence of \emph{acls}: in this case acls block all calls except “find” and count” that can call all;
-\item note the presence of the \emph{“base”: “Users”}: “Users” is a model of loopback that is offered for free. This model brings back all funtionality related to login, sign up, forgot etc.. “Customer” model extends the “Users” loopback - and in this way the “Customer” legacy capabilities and therefore all methods APIs and “Users” including methods for login and logout.
+\item note the presence of the \emph{“base”: “Users”}: “Users” is a model of loopback that is offered for free. This model brings back all funtionality related to login, sign up, forgot etc. “Customer” model extends the “Users” loopback, and in this way the “Customer” legacy capabilities and therefore all methods APIs and “Users” including methods for login and logout.
 \begin{lstlisting}[language=json]
 {
   "name": "Customer",
@@ -63,29 +63,29 @@ The model has also produced the “relations”. This field identifies relatiosn
 \end{itemize}
 \end{itemize}
 
-Each file JSON is also accompanied by a js file. This file is used to define the so-called “hooks” or the methods to define new APIs customized. These new APIs are added to the API generated by the JSON file.
+Each JSON file is also accompanied by a js file. This file is used to define the so-called “hooks” or the methods to define new APIs customized. These new APIs are added to the API generated by the JSON file.
 \begin{lstlisting}[language=javascript]
 module.exports = function (Product) {
 };
 \end{lstlisting}
-Inside the function offered to extend the API, it is possbile to define new APIs. The name of the API is declared costs as follows:
+Inside the function offered to extend the API, it is possbile to define new APIs. The name of the API is declared as follows:
 \begin{lstlisting}[language=javascript]
 module.exports = function (Product) {
   Product.remoteMethod('generate_variants', {
     accepts: { arg: 'product_id', type: 'string', required: true },
     returns: { arg: 'variants', type: 'Array' },
-    http: { verb: 'get', path:'/generate' }
+    http: { verb: 'get', path:'/generate”' }
   });
 };
 \end{lstlisting}
-The remote method remote method takes two parameters:
+The remote method takes two parameters:
 \begin{itemize}
-\item name of the method to execute the call of the API in question - In this way, the method name is “generate\_variants”. This method will be executed when it is called api: “/api/Products/generate”;
+\item the name of the method to execute the call of the API in question. In this way, the method name is “generate\_variants”. This method will be executed when it is called api: “/api/Products/generate”;
 \item as the second parameter, the remote method accepts a JSON object consisting of key-value pairs:
 \begin{itemize}
-\item “accepts”: indicates the input parameters ie parameters selling sent the body of the request. In this case the input parameter is the only one and is of type String and is required.
+\item “accepts”: indicates the input parameters that is, parameters that are present in the body of the request. In this case the input parameter is the only one and is of type String and is required.
 \item “returns”: It indicates what type is the response;
-\item “http”: This is a parameter that defines url API. Therefore, url for call the generate API is: “/api/Products/generate”. When you call this API, it is invoked and executed the remote method declared as the first parameter. The remote method must be defined freely by the programmer.
+\item “http”: This is a parameter that defines url API. Therefore, url for calling the generate API is: “/api/Products/generate”. When you call this API, it is invoked and executed the remote method declared as the first parameter. The remote method must be defined freely by the programmer.
 \end{itemize}
 \end{itemize}
 Therefore, the complete example to define new APIs via remote methods, which are not generated by default from JSON file, is the following:
@@ -104,9 +104,9 @@ module.exports = function (Product) {
 };
 \end{lstlisting}
 \subsection{HTTP RESTful API definition}
-CRUD operations on models are automatically generated by the web framework (on the basis of input JSON documents) and further custom actions can be defined. Following models of e-commerce are:
+CRUD operations on models which are automatically generated by the web framework (on the basis of input JSON documents) and further custom actions can be defined. Following models of e-commerce are:
 \begin{itemize}
-\item \emph{products}: as already mentioned, it is the main model of the project. The properties of this model are easy to imagine because it's property that we all seek when we buy a product or a fine. So a product has:
+\item \emph{products}: as already mentioned, it is the main model of the project. The properties of this model are easy to imagine because to buy a product, the most searched item is its properties. So a product has:
 \begin{itemize}
 \item \emph{title}: type string;
 \item \emph{description}: type string;
@@ -396,7 +396,9 @@ Finally, APIs generated for the model Customer:
 \subsection{UI components definition \& assembly}
 Several components are defined at this stage to compose a page. As already mentioned, these components are often self-contained and reusable.
 \newline
-This idea of composing page composing elements helps to intelligently manage the complexity of the pages. As already said, in the design phase of the client and the admin pages are independent.
+This idea of composing page composing elements helps to intelligently manage the complexity of the pages. As already said,the design phase of the client and the administrator pages are independent.
+
+{\color{red} -----------------------corretto il quarto capitolo fino a qui----------------------}
 \subsubsection{Admin side}
 %first part of page product%
 Following is shown a first part of the page product:
