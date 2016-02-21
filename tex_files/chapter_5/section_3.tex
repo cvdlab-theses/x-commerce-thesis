@@ -1,6 +1,6 @@
 \section{Payment component}
 \label{sec:payment_component}
-Until now it has been shown how it works internally handling payments. Let's see how to mask this complexity in integrating the payment system in x-commerce.
+Until now it has been shown how the payments are handled internally. Let's now see how to mask this complexity in integrating the payment system in x-commerce.
 \newline
 All logic of the payment is hidden in the component \emph{payment-braintree}.
 \newline
@@ -8,7 +8,7 @@ Following is illustrated in detail the use of the component \emph{payment-braint
 \begin{lstlisting}[language=html]
 <payment-braintree id="braintree"></payment-braintree>
 \end{lstlisting}
-So just import this tag to integrate into your system the payments system. All this thanks to the web components.
+So just import this tag to integrate into your system, the payments system. All these tasks are operated with the help of the web components.
 \newline
 The result of having imported this component is the following:
 \begin{figure}[htb]
@@ -17,7 +17,7 @@ The result of having imported this component is the following:
  \caption[Braintree form]{Braintree form for payment}
  \label{fig:brintree_form1}
 \end{figure}
-The management of payments with Stripe everything works the same way but does not implement the logic of gestone task when paying anadato bad. In fact, to import the payment form stripe just include the following tag:
+The management of payments with Stripe works in the same way but does not implement the logic of managing the task when the payment went bad. In fact, to import the payment form stripe just include the following tag:
 \begin{lstlisting}[language=html]
 <payment-stripe id="stripe"></payment-stripe>
 \end{lstlisting}

@@ -12,14 +12,14 @@ The payment of an order can have different outcomes in particular:
 \end{itemize}
 \item transaction successfully completed;
 \end{itemize}
-In each of these cases the customer e-commerce must be notified of the outcome of the transaction.
+In each of these cases the customer must be notified of the outcome of the transaction.
 \newline
-In the case in which the customer inserts the data of the credit card incorrect then it is immediately alerted.
+In the case in which the customer inserts the data of credit card incorrectly, then it is alerted immediately.
 \newline
-If the data on the card are correct but there are other problems for which the first transaction fails to complete for reasons listed above, Braintree then returns a reply containing identifier of the failed transaction.
+In other case, even if the card-data are correct, there are problems other than the reasons listed above, by which the first transaction fails to complete, then Braintree returns a reply containing identifier of the failed transaction.
 \newline
-This transaction ID (and other information) is stored in the DB to retry payment in particular is used to store the template \emph{task} this information.
-In particular, if a payment transaction fails then the server x-commerce creates a instance of the task model with the following data:
+This transaction ID (and other information) is stored in the DB in the template \emph{task} to retry payment a second time.
+In particular, if a payment transaction fails then the server x-commerce creates an instance of the task model with the following data:
 \begin{lstlisting}[language=javascript]
   var get_task_braintree = function (data) {
     var date_now = moment().format().split('+')[0] + 'Z';
@@ -40,12 +40,12 @@ In particular, if a payment transaction fails then the server x-commerce creates
     return task;
   };
 \end{lstlisting}
-When starts of x-commerce starts a cron that appropriate and regular intervals starts and checks if there are tasks to be performed.
+When x-commerce starts, the cron also starts and checks if there are tasks to be performed, in regular intervals.
 A Cron is a time-based job scheduler in Unix-like computer operating systems.
 The function of this scheduler is to verify the presence of tasks to be performed in particular:
 \begin{itemize}
-\item if there are no tasks to be performed then the crohn falls asleep;
-\item if there are any cron task then it takes all tasks and we select a task to be carried out with a policy implemented in the following function:
+\item if there are no tasks to be performed then the cron falls asleep;
+\item if there are any cron task then it takes all tasks and select a task to be carried out with a policy implemented in the following function:
 \begin{lstlisting}[language=javascript]
   var get_next_task = function (tasks) {
     var test = false;
@@ -75,9 +75,9 @@ For example:
 \item if a task with the retry\_count = 3 => \(3^{4,09} = 89,41\). Then this task is selected to run if they spent at least 89,41 minutes;
 \item if a task with the retry\_count = 4 => \(4^{4,09} = 290,01\). Then this task is selected to run if they spent at least 290,01 minutes;
 \end{enumerate}
-As you can see, a new task is now selected to be tried again. Instead other tasks that continue to fail will gradually discarded.
+As you can see, a new task is now selected to be tried again. Instead, other tasks that continue to fail will gradually discarded.
 \newline
-This idea to try to make payment by executing the task is very important namely when the customer has entered the data of the credit card and did checkout then it is the responsibility of the administrator of the platform, the transaction was completed successfully without requiring the customer to try again.
+This idea to try to make payment by executing the task is very important namely when the customer has entered the data of the credit card and did checkout then it is the responsibility of the platform to ensure that the transaction was completed successfully without requiring the customer to try again.
 \newline
-This is appropriate because the customer could change his mind if you continue to ask him to refuse the payment. So it is advisable that the customer confirms the payment once only and all that needs to be managed at the server side.
+This is appropriate because the customer could change his mind if you continue to notify him that the payment is refused. So it is advisable that the customer confirms the payment once and the rest needs to be managed at the server side.
 \end{itemize}
