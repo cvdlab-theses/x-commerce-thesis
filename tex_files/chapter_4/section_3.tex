@@ -406,7 +406,6 @@ Shown below is the first part of the product page:
 \caption[Product page first part form]{Example for product page - first part forms interface}
 \label{fig:design_page}
 \end{figure}
-\newline
 This first part of the product page consists of several components:
 \begin{itemize}
 \item
@@ -435,20 +434,18 @@ this component is used to show the images of the product;
 \begin{lstlisting}[language=html]
 <part-product-pricing></part-product-pricing>
 \end{lstlisting}
-this component shows the information related to the price;
+this component is used to show the information related to the price;
 \item
 \begin{lstlisting}[language=html]
 <part-product-inventory></part-product-inventory>
 \end{lstlisting}
-this component is used to represents the information related to inventory as barcode and SKU(stock keeping unit);
+this component is used to show the information related to inventory as barcode and SKU(stock keeping unit);
 \item
 \begin{lstlisting}[language=html]
 <part-product-shipping></part-product-shipping>
 \end{lstlisting}
 this component is used to indicate the weight of product;
 \end{itemize}
-
-
 
 %second part of page product%
 Following is shown a second part of the product page:
@@ -458,7 +455,6 @@ Following is shown a second part of the product page:
 \caption[Product page second part form]{Example for product page - second part forms interface}
 \label{fig:design_page}
 \end{figure}
-\newline
 This second part of the product page contains other components:
 \begin{itemize}
 \item
@@ -472,8 +468,8 @@ this component hides all the operating logic to assign the current product to a 
 \end{lstlisting}
 this component hides the entire operating logic to create variants of a product;
 \end{itemize}
-
 Putting together these small self-contained components, the product page is designed. Now let us see how the product page at client-side it designed.
+\newpage
 \subsubsection{Client side}
 \begin{figure}[htb]
 \centering
@@ -482,12 +478,36 @@ Putting together these small self-contained components, the product page is desi
 \label{fig:design_page_prod_cli}
 \end{figure}
 The components making up the product page on the client-side are as follows:
+
+
+\begin{itemize}
+\item
 \begin{lstlisting}[language=html]
 <part-product-info></part-product-info>
+\end{lstlisting}
+this component handles the basic information of the product such as the product name, vendor name, product type, price
+\item
+\begin{lstlisting}[language=html]
 <part-product-options></part-product-options>
+\end{lstlisting}
+this component manages the variations of a product. For example, a bicycle can have different sizes such as 24 inch, 26 inch. etc.\item
+\begin{lstlisting}[language=html]
 <part-product-cart></part-product-cart>
+\end{lstlisting}
+this component handles all the logic for management of the shopping cart.
+\item
+\begin{lstlisting}[language=html]
 <part-product-wish></part-product-wish>
+\end{lstlisting}
+this component hides all the logic to manage the customer's favorite products.
+\item
+\begin{lstlisting}[language=html]
 <part-product-details></part-product-details>
+\end{lstlisting}
+this component deals with the description and other information about the product.
+\item
+\begin{lstlisting}[language=html]
 <part-product-reviews></part-product-reviews>
 \end{lstlisting}
-The role of each component in the page is made clear.
+often users are interested to know the feedback of other users who have purchased the product at issue the product. This component deals with reviews.
+\end{itemize}
