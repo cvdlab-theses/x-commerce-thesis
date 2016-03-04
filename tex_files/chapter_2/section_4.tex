@@ -1,10 +1,57 @@
-\section{Easypost}
-\label{sec:easypost}
-Another key point in the systems of e-commerce is the delivery and tracking of parcels. From the logistics point of view this is a very complicated problem to which we must pay close attention today because customer satisfaction is strongly dependent on the traceability of its services well. Through this feature the customer is aware of when you receive the order.
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.3\linewidth]{images/chapter2/shipment-tracking.jpg}\hfill
-  \caption[shipping and tracking]{shipping and tracking}
-\label{fig:shipping_tracking}
-\end{figure}
-Easypost is a service that solves problems related notes to shipments and tracking of packages offering a solution well established. This service is waiting to be developed.
+\section{Taxation of Electronic Commerce: A Developing Problem}
+\label{sec:taxation_overview}
+The rapid growth of e-commerce, especially the sale of goods and services over the internet, has fuelled a debate about the taxation regimes to be used.
+\newline
+The shift from a physically oriented commercial environment to a knowledge-based electronic environment poses serious and substantial issues in relation to taxation and taxation regimes. Tax administrations throughout the world face the formidable task of protecting their revenue base without hindering either the development of new technologies or the involvement of the business community in the evolving and growing e-market place.
+These problems will be greater for developing countries.
+\newline
+It 'clear that the solutions to this problem are subject to continuation variations caused by changes of rules in force in each state.
+\newline
+Since it is a very very common problem in systems e-commerce, today, fortunately, there are several services that offer ready-made solutions.
+\newline
+These services (TaxJar, Avalara, CloudTax, etc), give a big hand to the developer to manage the prices of goods or services.
+\subsection{Taxjar}
+For get precise sales tax rates and calculations at the state, county, city and special taxing district level so you charge the customer the right amount of sales tax, every time, must be updated continuously on the change in the rules in force.
+\newline
+No more building tax tables and dealing with ever-changing sales tax rates in thousands of sales tax districts.
+So, sales tax is so complicated because every state is different. Some states require that merchants charge sales tax on shipping charges, others don’t.
+\newline
+Some states have “origin-based” sales tax sourcing. Others are “destination-based.” TaxJar’s SmartCalcs API comes handles complicated sales tax sourcing rules so you never have to worry about it.
+Certain products types, like food or clothing are taxed at a lower rate or even tax exempt in some states. TaxJar SmartCalcs Sales Tax API handles complicated product-level taxability so you never have to worry about customizing sales tax rates.
+\newline
+Taxjar SmartCalcs solves solves all these problems and it provides an easy interface to very complicated problems, RESTful APIs.
+\newline
+Let's see what parameters must be specified for calculating the fees in two locations:
+\begin{itemize}
+  \item \emph{from\_country}: String(optional) - ISO two country code of the country where the order shipped from;
+  \item \emph{from\_zip}: String(optional) - Postal code where the order shipped from (5-Digit ZIP or ZIP+4);
+  \item \emph{from\_state}: String(optional) - State where the order shipped from.;
+  \item \emph{from\_city}: String(optional) - City where the order shipped from;
+  \item \emph{from\_street}: String(optional) - Street address where the order shipped from.;
+  \item \emph{to\_country}: String(required) - ISO two country code of the country where the order shipped to;
+  \item \emph{to\_zip}: String(conditional) - Postal code where the order shipped to (5-Digit ZIP or ZIP+4);
+  \item \emph{to\_state}: String(conditional) - State where the order shipped to;
+  \item \emph{to\_city}: String(optional) - City where the order shipped to;
+  \item \emph{to\_street}: String(optional) - Street address where the order shipped to;
+  \item \emph{amount}: Long(optional) - Total amount of the order, excluding shipping;
+  \item \emph{shipping}: Long(required) - Total amount of shipping for the order;
+\end{itemize}
+Following is an example in code:
+\begin{lstlisting}[language=javascript]
+var taxjar = require("taxjar")(<api-key>);
+taxjar.taxForOrder({
+  'from_country': 'US',
+  'from_zip': '07001',
+  'from_state': 'NJ',
+  'to_country': 'US',
+  'to_zip': '07446',
+  'to_state': 'NJ',
+  'amount': 16.50,
+  'shipping': 1.5
+}).then(function(res) {
+  res.tax; // Tax object
+  res.tax.amount_to_collect; // Amount to collect
+});
+</script>
+\end{lstlisting}
+Taxjar, also allows you to specify many other parameters such as the order lines, to be precise in the calculation of rates.

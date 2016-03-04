@@ -1,57 +1,48 @@
-\section{Taxation of Electronic Commerce: A Developing Problem}
-\label{sec:taxation_overview}
-The rapid growth of e-commerce, especially the sale of goods and services over the internet, has fuelled a debate about the taxation regimes to be used.
+\section{Stripe}
+\label{sec:stripe}
+Stripe is an Irish technology company that allows both private individuals and businesses to accept payments over the Internet \cite{stripe_doc_a}.
+Stripe aims to expand internet commerce by making it easy to process transactions and manage an online business.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.5\linewidth]{images/chapter2/stripe-logo.png}\hfill
+\caption[Stripe logo]{Stripe logo}
+\label{fig:stripe_logo}
+\end{figure}
+Stripe is 365 people and headquartered in an old trunk factory in the Mission district of San Francisco. The company has received around \$300 million in funding to date; investors include Sequoia Capital, Visa, American Express, Peter Thiel, and Elon Musk. Stripe enables you to accept payments in minutes. Collect your customers’ payment information easily and securely on web or mobile, and create charges server-side. Stripe supports 100+ currencies out of the box. In addition to credit and debit cards, Apple Pay, Android Pay, you can also easily support Bitcoin, Alipay, or Amex Express Checkout.
 \newline
-The shift from a physically oriented commercial environment to a knowledge-based electronic environment poses serious and substantial issues in relation to taxation and taxation regimes. Tax administrations throughout the world face the formidable task of protecting their revenue base without hindering either the development of new technologies or the involvement of the business community in the evolving and growing e-market place.
-These problems will be greater for developing countries.
-\newline
-It 'clear that the solutions to this problem are subject to continuation variations caused by changes of rules in force in each state.
-\newline
-Since it is a very very common problem in systems e-commerce, today, fortunately, there are several services that offer ready-made solutions.
-\newline
-These services (TaxJar, Avalara, CloudTax, etc), give a big hand to the developer to manage the prices of goods or services.
-\subsection{Taxjar}
-For get precise sales tax rates and calculations at the state, county, city and special taxing district level so you charge the customer the right amount of sales tax, every time, must be updated continuously on the change in the rules in force.
-\newline
-No more building tax tables and dealing with ever-changing sales tax rates in thousands of sales tax districts.
-So, sales tax is so complicated because every state is different. Some states require that merchants charge sales tax on shipping charges, others don’t.
-\newline
-Some states have “origin-based” sales tax sourcing. Others are “destination-based.” TaxJar’s SmartCalcs API comes handles complicated sales tax sourcing rules so you never have to worry about it.
-Certain products types, like food or clothing are taxed at a lower rate or even tax exempt in some states. TaxJar SmartCalcs Sales Tax API handles complicated product-level taxability so you never have to worry about customizing sales tax rates.
-\newline
-Taxjar SmartCalcs solves solves all these problems and it provides an easy interface to very complicated problems, RESTful APIs.
-\newline
-Let's see what parameters must be specified for calculating the fees in two locations:
+Stripe is a new widely celebrated alternative to Paypal and other payment gateways. Here are the main benefits of using the Stripe extension:
 \begin{itemize}
-  \item \emph{from\_country}: String(optional) - ISO two country code of the country where the order shipped from;
-  \item \emph{from\_zip}: String(optional) - Postal code where the order shipped from (5-Digit ZIP or ZIP+4);
-  \item \emph{from\_state}: String(optional) - State where the order shipped from.;
-  \item \emph{from\_city}: String(optional) - City where the order shipped from;
-  \item \emph{from\_street}: String(optional) - Street address where the order shipped from.;
-  \item \emph{to\_country}: String(required) - ISO two country code of the country where the order shipped to;
-  \item \emph{to\_zip}: String(conditional) - Postal code where the order shipped to (5-Digit ZIP or ZIP+4);
-  \item \emph{to\_state}: String(conditional) - State where the order shipped to;
-  \item \emph{to\_city}: String(optional) - City where the order shipped to;
-  \item \emph{to\_street}: String(optional) - Street address where the order shipped to;
-  \item \emph{amount}: Long(optional) - Total amount of the order, excluding shipping;
-  \item \emph{shipping}: Long(required) - Total amount of shipping for the order;
+\item Accept credit cards: process credit card orders directly on your site;
+\item Increase sales: seamless checkout experience within your own site means increased conversions and/or sales;
+\item Lower fees: competitive pricing (in many cases cheaper) than Paypal and other gateways;
+\item Advanced analytics \& reporting – Beautiful analytics dashboard and sales reporting in Stipe.com;
+\item PCI compliance: keeps your customers’ data safe on Stripe’s PCI compliant servers;
+\item Incredibly simply setup and configuration. Buyers never leave your site to make the purchase;
+\item No hidden fees: don’t get charged for refunds or disputes;
+\item Global: business in any of these countries can accept payments from customers anywhere in the world;
 \end{itemize}
-Following is an example in code:
-\begin{lstlisting}[language=javascript]
-var taxjar = require("taxjar")(<api-key>);
-taxjar.taxForOrder({
-  'from_country': 'US',
-  'from_zip': '07001',
-  'from_state': 'NJ',
-  'to_country': 'US',
-  'to_zip': '07446',
-  'to_state': 'NJ',
-  'amount': 16.50,
-  'shipping': 1.5
-}).then(function(res) {
-  res.tax; // Tax object
-  res.tax.amount_to_collect; // Amount to collect
-});
-</script>
+\subsection{How it works}
+Even Stripe, as Braintree, provides a default widget that you can use to integrate payments.
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.5\linewidth]{images/chapter2/stripe-drop.png}\hfill
+  \caption[Default stripe payment widget]{Default stripe payment widget}
+\label{fig:stripe_default_ui}
+\end{figure}
+To get this widget, just enter the following code in its page:
+\begin{lstlisting}[language=html]
+<form action="" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+    data-amount="2000"
+    data-name="Demo Site"
+    data-description="2 widgets ($20.00)"
+    data-image="/128x128.png"
+    data-locale="auto">
+  </script>
+</form>
 \end{lstlisting}
-Taxjar, also allows you to specify many other parameters such as the order lines, to be precise in the calculation of rates.
+The most important thing to notice is the data-key attribute added to the script tag. This key identifies your account when communicating with Stripe.
+\newline
+Stripe also offers the ability to customize the payment form. This and other details can be discussed in Chapter 5.
