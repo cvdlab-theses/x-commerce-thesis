@@ -6,7 +6,7 @@ All logic of the payment is hidden in the component \emph{payment-braintree}.
 \newline
 Following is illustrated in detail the use of the component \emph{payment-braintree}:
 \begin{lstlisting}[language=html]
-<payment-braintree id="braintree"></payment-braintree>
+<payment-braintree></payment-braintree>
 \end{lstlisting}
 So just import this tag to integrate into your system, the payments system. All these tasks are operated with the help of the web components.
 \newline
@@ -19,5 +19,5 @@ The result of having imported this component is the following:
 \end{figure}
 The management of payments with Stripe works in the same way but does not implement the logic of managing the task when the payment went bad. In fact, to import the payment form stripe just include the following tag:
 \begin{lstlisting}[language=html]
-<payment-stripe id="stripe"></payment-stripe>
+<payment-stripe></payment-stripe>
 \end{lstlisting}

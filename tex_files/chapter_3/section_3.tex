@@ -1,29 +1,69 @@
-\section{Web Components}
-\label{sec:web_components}
-This section provides an overview of Web  Components.
-Web Components are a set of standards currently being produced by Google engineers as a W3C specification that allows for the creation of reusable widgets or components in web documents and web  applications.  The intention behind them is to bring component-based software engineering to the World Wide Web. The components model allows for encapsulation and interoperability of individual HTML  elements.
+\section{Strongloop Loopback}
+\label{sec:strongloop_loopback}
+This section provides an overview of LoopBack.
 \newline
-Support for Web Components is present in some WebKit-based browsers like Google Chrome and Opera and is in Mozilla Firefox (requires a manual configuration change). Microsoft’s Internet Explorer has not implemented any Web Components specifications yet. Backwards compatibility with older browsers is implemented using JavaScript-based polyfills.\cite{tch_webcomp}
-
+Built on top of the open source LoopBack framework, the StrongLoop API Platform is the first end-to-end platform for the full API lifecycle that allows to visually develop REST APIs in Node and get them connected to new and legacy data. In addition, the API Platform features built-in mBaaS features like push and offline sync, plus graphical tools with DevOps features for clustering, profiling and monitoring Node apps.
+\newline
+LoopBack generates model API from the models schemas, to let CRUD operations on models.
+LoopBack models automatically have a standard set of HTTP endpoints that provide REST APIs for create, read, update, and delete (CRUD) operations on model data:
+\begin{itemize}
+\item \textbf{POST /Model} — Create a new instance of the model and persist it into the data source.
+\item \textbf{GET /Model} — Find all instances of the model matched by filter from the data source.
+\item \textbf{PUT /Model} — Update an existing model instance or insert a new one into the data source.
+\item \textbf{PUT /Model/id} — Update attributes for a model instance and persist it into the data source.
+\item \textbf{GET /Model/id} — Find a model instance by id from the data source.
+\item \textbf{DELETE /Model/id } — Delete a model instance by id from the data source.
+\item \textbf{GET /Model/count} — Count instances of the model matched by where from the data source.
+\item \textbf{GET /Model/findOne} — Find first instance of the model matched by filter from the data source.
+\item \textbf{POST /Model/update} — Update instances of the model matched by where from that data source.
+\end{itemize}
 \begin{figure}[htb]
  \centering
- \includegraphics[width=1.0\linewidth]{images/chapter3/web_cmpts.png}\hfill
- \caption[Web Components]{Web Components}
- \label{fig:fourV}
+ \includegraphics[width=0.9\linewidth]{images/chapter3/loopback_architecture.jpg}\hfill
+ \caption[Loopback Architecture]{Loopback Architecture}
+ \label{fig:loopback_architecture}
 \end{figure}
-Web Components consist of 4 main elements which can be used separately or all together:
-\begin{itemize}
-\item Custom Elements: Custom Elements allow authors to define their own custom HTML elements. Authors associate JavaScript code with custom tag names, and then use those custom tag names as they would any standard tag.  Custom elements are still elements.  It is possible to create, use,
-manipulate, and compose them just as easily as any standard <div> or <span> today.\cite{tch_custom}
-\end{itemize}
-\begin{itemize}
-\item Shadow DOM: Shadow DOM addresses the lack of true DOM tree encapsulation when building components. With Shadow DOM, elements can get a new kind of node associated with them. This new kind of node is called a shadow root.  An element that has a “shadow root”  associated with it is called  a “shadow host”. The content of a shadow host isn’t rendered; the content of the shadow root is rendered instead.  Shadow DOM allows   a single node to express three subtrees:  light DOM, shadow DOM,  and composed DOM. Together, the light DOM and shadow DOM are referred to as the logical DOM. This is the DOM that the developer interacts with. The composed DOM is what the browser sees and uses to render the pixels on the  screen.\cite{tch_dom}
+A LoopBack model represents data in backend systems such as databases, and by default has both Node and REST APIs. Additionally, developer can add functionality such as validation rules and business logic to models. Every LoopBack application has a set of predefined built-in models such as User, Role, and Application. Developer can extend built-in models to suit application’s needs.
 \newline
-Structure of a Shadow DOM An element that has a shadow root asso- ciated with it is called shadow host. The shadow root can be treated as an ordinary DOM element, so it is possible to append arbitrary nodes to it. With Shadow DOM, all markup and CSS are scoped to the host element. In other words, CSS styles defined inside a Shadow Root won’t affect its parent document, CSS styles defined outside the Shadow Root won’t affect the main page.
-\end{itemize}
+The model JSON file defines models, relations between models, and access to models.
+\begin{lstlisting}[language=json]
+{
+  {
+  "name": "ModelName", // See Top-level properties below "description": "A Customer model representing our customers.", "base": "User",
+  "idInjection": false,
+  "strict": true,
+  "options": { ... }, // See Options below
+  "properties": { ... }, // See Properties below
+  "validations": [...], // See Validations below
+  "relations": {...}, // See Relations below
+  "acls": [...], // See ACLs below
+  "scopes": {...}, // See Scopes below
+   "http": {"path": "/foo/mypath"}
+  }
+}
+\end{lstlisting}
+Where:
 \begin{itemize}
-\item HTML Import: This webcomponents.js repository contains a  JavaScript  polyfill  for the HTML Imports specification. HTML Imports are a way to include and reuse HTML documents in other HTML documents. As <script> tags let authors include external JavaScript in their pages, imports let authors load full HTML resources. In particular, imports let authors include Custom Element definitions from external URLs.
-\end{itemize}
+\item “name”: Name of the model.
+\item “description”: Optional description of the model.
+\item “base”: Name of another model that this model extends. The model will “inherit” properties and methods of the base model.
+\item “IdInjection”: Whether to automatically add an id property to the model:
 \begin{itemize}
-\item Templates: This specification describes a method for declaring inert DOM subtrees in HTML and manipulating them to instantiate document fragments with identical contents.
+\item true - id property is added to the model automatically. This is the default.
+\item false - id property is not added to the model.
 \end{itemize}
+\item “strict”: Specifies whether the model accepts only predefined properties or not. One of:
+\begin{itemize}
+\item true - Only properties defined in the model are accepted. Used to ensure that the model accepts only predefined properties.
+\item false - The model is an open model and accepts all properties, including ones not predefined in the model. This mode is useful to store free-form JSON data to a schema-less database such as MongoDB.
+\item validate - The unknown properties will be reported as validation errors.
+\item throw - Throws an exception if properties not defined for the model are used in an operation.
+\item undefined - Defaults to false unless the data source is backed by a relational database such as Oracle or MySQL.
+\item “options”: JSON object that specifies model options.
+\item “properties”: JSON object that specifies the properties in the model.
+\item “relations”: Object containing relation names and relation definitions.
+\item “acls”: Set of ACL specifications that describes access control for the model.
+\end{itemize}
+\end{itemize}
+The API can be extended: the developer can add remote functions to models or add hooks to existing API to add custom behavior before and/or after the API handler (to pre-process the re-quest and/or post-process the response). The resulting API is RESTful, cookie free, signed by authentica- tion token. By default, applications have a built-in model that represents a user, with properties username, email and password and role for authentica- tion and authorization. Loopback also introduces an indirection layer that allows to choose from almost all particular DBMS to be used.
+In Chapter Two the technologies used for developing this work, have been described. Each technology has been described in realtion to its function and its use in the project.
